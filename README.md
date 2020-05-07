@@ -25,7 +25,9 @@ Due to the specifics of my work I need to remember dozens of passwords, IP addre
 <li>Show/Hide window hotkey (HOME)<br />
 </li>
 </ul>
-<span style="font-weight: bold;" class="mycode_b">To do list:</span><ul class="mycode_list"><li>Normal hotkeys<br />
+<br />
+<b>To do list:</b>
+<ul class="mycode_list"><li>Normal hotkeys<br />
 </li>
 <li>Trey icon, menu<br />
 </li>
