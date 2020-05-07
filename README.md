@@ -9,26 +9,19 @@ Due to the specifics of my work I need to remember dozens of passwords, IP addre
 <br /><center><img src="https://interium.ooo/media/ClipboardManager.png" alt="" /></center>
 <br />
 <b>Features:</b>
-</li>
-<li>Cyrillic support<br />
-</li>
-<li>Autostart<br />
-</li>
-<li>Unique for each user meme encryption<br />
-</li>
-<li>CPU monitoring<br />
-</li>
-<li>RAM monitoring<br />
-</li>
-<li>9 Hotkeys for pasting  (CTRL + NUMPAD 1-9)<br />
-</li>
-<li>Show/Hide window hotkey (HOME)<br />
-</li>
+<ul>
+	<li>Cyrillic support</li>
+	<li>Autostart</li>
+	<li>Unique for each user meme encryption</li>
+	<li>CPU monitoring</li>
+	<li>RAM monitoring</li>
+	<li>9 Hotkeys for pasting  (CTRL + NUMPAD 1-9)</li>
+	<li>Show/Hide window hotkey (HOME)</li>
 </ul>
 <br />
 <b>To do list:</b>
-<ul class="mycode_list"><li>Normal hotkeys<br />
-</li>
+<ul>
+<li>Normal hotkeys</li>
 <li>Trey icon, menu<br />
 </li>
 <li>Image buffer support<br />
