@@ -1,14 +1,13 @@
 # ClipboardManager
 Application that gives additional clipboard buffers and some other features.
 
-		<span style="font-weight: bold;" class="mycode_b">Product name:</span> Clipboard Manager<br />
-<span style="font-weight: bold;" class="mycode_b">Last version:</span> v1.0<br />
-<span style="font-weight: bold;" class="mycode_b">Last update:</span> 5/7/2020<br />
-<span style="font-weight: bold;" class="mycode_b">Description: </span>Due to the specifics of my work I need to remember dozens of passwords, IP addresses, URLs. Hundreds of people ask me the same questions over and over again. If I will type this all by hand, I will soon lose my mind, so I decided to create my own application that will give me additional clipboard buffers. Of course you can store all your data in a text file, but it takes so much more time: to open file, select what you need to copy, copy it, paste it, close file. Instead, you can just press 1 hotkey to paste needed text. Text files also unencrypted and a good target for stealers and other viruses, plus this information can be accessed by someone who have access to your computer, which is also not good. <br />
-<hr class="mycode_hr" />
-<div style="text-align: center;" class="mycode_align"><img src="https://interium.ooo/media/ClipboardManager.png" alt="[Image: ClipboardManager.png]" class="mycode_img" /></div>
+<b> Clipboard Manager</b>
+<b>Last version:</b>
+<b>Last update:</b>
+<b>Due to the specifics of my work I need to remember dozens of passwords, IP addresses, URLs. Hundreds of people ask me the same questions over and over again. If I will type this all by hand, I will soon lose my mind, so I decided to create my own application that will give me additional clipboard buffers. Of course you can store all your data in a text file, but it takes so much more time: to open file, select what you need to copy, copy it, paste it, close file. Instead, you can just press 1 hotkey to paste needed text. Text files also unencrypted and a good target for stealers and other viruses, plus this information can be accessed by someone who have access to your computer, which is also not good. </b>
+<img src="https://interium.ooo/media/ClipboardManager.png" alt="[Image: ClipboardManager.png]" class="mycode_img" />
 <br />
-<span style="font-weight: bold;" class="mycode_b">Features:</span><ul class="mycode_list"><li>Can store infinity amount of buffers.<br />
+<b>Features:</b>
 </li>
 <li>Cyrillic support<br />
 </li>
