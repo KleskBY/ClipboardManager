@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "resource.h"
 
 #pragma region SettignsLoader
 
@@ -96,7 +97,18 @@ int main(int, char* argv[])
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, AppClass, NULL };
     RegisterClassEx(&wc);
     hwnd = CreateWindowEx(WS_EX_TOPMOST/* | WS_EX_LAYERED*/ | WS_EX_TOOLWINDOW, AppClass, AppName, WS_POPUP, (desktop.right / 2) - (WindowWidth / 2), (desktop.bottom / 2) - (WindowHeight / 2), WindowWidth, WindowHeight, 0, 0, wc.hInstance, 0);
+    NOTIFYICONDATA nid;
 
+    HICON hi = NULL;
+    hi = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+    nid.hWnd = hwnd;
+    nid.uID = 100;
+    nid.uVersion = NOTIFYICON_VERSION;
+    nid.uCallbackMessage = WM_MYMESSAGE;
+    nid.hIcon = hi;
+    strcpy(nid.szTip, "Clipboard manager");
+    nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+    Shell_NotifyIcon(NIM_ADD, &nid);
     //SetLayeredWindowAttributes(hwnd, 0, 255, LWA_ALPHA);
     //SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, ULW_COLORKEY);
 
@@ -110,6 +122,16 @@ int main(int, char* argv[])
     ShowWindow(hwnd, SW_SHOWDEFAULT);
     UpdateWindow(hwnd);
     SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    RegisterHotKey(NULL, 1, MOD_CONTROL, VK_NUMPAD1);
+    RegisterHotKey(NULL, 2, MOD_CONTROL, VK_NUMPAD2);
+    RegisterHotKey(NULL, 3, MOD_CONTROL, VK_NUMPAD3);
+    RegisterHotKey(NULL, 4, MOD_CONTROL, VK_NUMPAD4);
+    RegisterHotKey(NULL, 5, MOD_CONTROL, VK_NUMPAD5);
+    RegisterHotKey(NULL, 6, MOD_CONTROL, VK_NUMPAD6);
+    RegisterHotKey(NULL, 7, MOD_CONTROL, VK_NUMPAD7);
+    RegisterHotKey(NULL, 8, MOD_CONTROL, VK_NUMPAD8);
+    RegisterHotKey(NULL, 9, MOD_CONTROL, VK_NUMPAD9);
+    RegisterHotKey(NULL, 10, NULL, VK_HOME);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -123,32 +145,30 @@ int main(int, char* argv[])
     if (tCopy == nullptr) D3DXCreateTextureFromFileInMemoryEx(g_pd3dDevice, &copyicon, sizeof(copyicon), 32, 32, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, &tCopy);
     if (tLock == nullptr) D3DXCreateTextureFromFileInMemoryEx(g_pd3dDevice, &lock, sizeof(lock), 32, 32, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, &tLock);
 
+
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
     static bool open = true;
     DWORD dwFlag = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
     while (msg.message != WM_QUIT)
     {
-        if (GetAsyncKeyState(VK_HOME))
+        if (msg.message == WM_HOTKEY )
         {
-            ShowMenu = !ShowMenu;
-            if(ShowMenu) ShowWindow(hwnd, SW_SHOWDEFAULT);
-            else ShowWindow(hwnd, SW_HIDE);
-            while (GetAsyncKeyState(VK_HOME)) std::this_thread::sleep_for(std::chrono::milliseconds(25));
-        }
-        if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
-        {
-            for (int key = VK_NUMPAD1; key < VK_NUMPAD9; key++)
+            if (msg.wParam == 10)
             {
-                if (GetAsyncKeyState(key) & 0x8000)
-                {
-                    if (ClipboardBuffers[key - VK_NUMPAD1].Encrypted) for (int j = 0; j < strlen(ClipboardBuffers[key - VK_NUMPAD1].Buffer); j++) ClipboardBuffers[key - VK_NUMPAD1].Buffer[j] = ClipboardBuffers[key - VK_NUMPAD1].Buffer[j] ^ EncryptKey;
-                    Clipboard::PasteText(std::string(ClipboardBuffers[key - VK_NUMPAD1].Buffer));
-                    if (ClipboardBuffers[key - VK_NUMPAD1].Encrypted) for (int j = 0; j < strlen(ClipboardBuffers[key - VK_NUMPAD1].Buffer); j++) ClipboardBuffers[key - VK_NUMPAD1].Buffer[j] = ClipboardBuffers[key - VK_NUMPAD1].Buffer[j] ^ EncryptKey;
-                    while (GetAsyncKeyState(key)) std::this_thread::sleep_for(std::chrono::milliseconds(25));
-                }
+                ShowMenu = !ShowMenu;
+                if (ShowMenu) ShowWindow(hwnd, SW_SHOWDEFAULT);
+                else ShowWindow(hwnd, SW_HIDE);
             }
+            else
+            {
+                if (ClipboardBuffers[msg.wParam - 1].Encrypted) for (int j = 0; j < strlen(ClipboardBuffers[msg.wParam - 1].Buffer); j++) ClipboardBuffers[msg.wParam - 1].Buffer[j] = ClipboardBuffers[msg.wParam - 1].Buffer[j] ^ EncryptKey;
+                Clipboard::PasteText(std::string(ClipboardBuffers[msg.wParam - 1].Buffer));
+                if (ClipboardBuffers[msg.wParam - 1].Encrypted) for (int j = 0; j < strlen(ClipboardBuffers[msg.wParam - 1].Buffer); j++) ClipboardBuffers[msg.wParam - 1].Buffer[j] = ClipboardBuffers[msg.wParam - 1].Buffer[j] ^ EncryptKey;
+            }
+            msg.message = NULL;
         }
+
         
         static float CPUvalues[60] = {};
         static DWORD CPUrefresh_time = 0.0;
@@ -180,17 +200,17 @@ int main(int, char* argv[])
             phase = (float)(Monitor::GetRAM());
             refresh_time = refresh_time + 1000;
         }
-        
+        if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+            continue;
+        }
+
+        if (!open) ExitProcess(EXIT_SUCCESS);
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         if (ShowMenu)
         {
-            if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-                continue;
-            }
-            if (!open) ExitProcess(EXIT_SUCCESS);
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
             ImGui_ImplDX9_NewFrame();
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
@@ -309,7 +329,6 @@ int main(int, char* argv[])
                 ImGui::PlotLines(("CPU\n" + std::to_string((int)CPUphase) + "%").c_str(), CPUvalues, IM_ARRAYSIZE(CPUvalues), 0, NULL, 0.f, 100.f, ImVec2(108, 60));
                 ImGui::SameLine();
                 ImGui::PlotLines(("RAM\n" + std::to_string((int)phase) + "%").c_str(), values, IM_ARRAYSIZE(values), 0, NULL, 0.f, 100.f, ImVec2(108, 60));
-
             }
             ImGui::End();
 
@@ -332,6 +351,11 @@ int main(int, char* argv[])
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
     CleanupDeviceD3D();
+    NOTIFYICONDATA nid2;
+    nid2.cbSize = sizeof(NOTIFYICONDATA);
+    nid2.hWnd = hwnd;
+    nid2.uID = 100;
+    Shell_NotifyIcon(NIM_DELETE, &nid2);
     DestroyWindow(hwnd);
     UnregisterClass(wc.lpszClassName, wc.hInstance);
 

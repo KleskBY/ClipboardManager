@@ -1,4 +1,5 @@
 #pragma once
+#define WM_MYMESSAGE (WM_USER + 1)
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx9.h"
 #include "imgui/imgui_impl_win32.h"
@@ -127,6 +128,19 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
         else break;
     }
+    case WM_MYMESSAGE:
+        switch (lParam)
+        {
+        case WM_LBUTTONDBLCLK:
+            ShowWindow(hwnd, SW_SHOWDEFAULT);
+            break;
+        case WM_RBUTTONDBLCLK:
+            ExitProcess(EXIT_SUCCESS);
+            break;
+        default:
+            return DefWindowProc(hWnd, msg, wParam, lParam);
+        };
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
@@ -216,3 +230,4 @@ void GetMyStyle()
         colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 1.00f);
     }
 }
+
