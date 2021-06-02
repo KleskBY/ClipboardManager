@@ -22,8 +22,7 @@ Due to the specifics of my work I need to remember dozens of passwords, IP addre
 <br />
 <b>To do list:</b>
 <ul>
-	<li>Normal hotkeys</li>
-	<li>Trey icon, menu</li>
+	<li>Trey menu</li>
 	<li>Image buffer support</li>
 	<li>GPU/Network monitoring</li>
 	<li>Better menu</li>
